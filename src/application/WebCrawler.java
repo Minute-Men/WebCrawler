@@ -32,8 +32,7 @@ public class WebCrawler {
 			} else {
 				currentUrl = this.nextUrl();
 			}
-			leg.crawl(currentUrl); // Lots of stuff happening here. Look at the crawl method in
-									// Crawler
+			leg.crawl(currentUrl);
 			boolean success = leg.searchForWord(searchWord);
 			if (success) {
 				this.sucesses.add(currentUrl);
@@ -48,7 +47,6 @@ public class WebCrawler {
 				System.out.println("No Matches Found.");
 		}
 		String results = String.join(", ", sucesses);
-		System.out.println(results);
 		System.out.println("\nDone Visited " + this.pagesVisited.size() + " web page(s)");
 	}
 
@@ -85,7 +83,6 @@ public class WebCrawler {
 
 		WebCrawler spider = new WebCrawler();
 		spider.search("http://www.cnn.com/", "Trump");
-		// spider.search(websitesTextArea.getText(), keyWordsTextArea.getText());
 		for (int i = 0; i < sucesses.size(); i++) {
 			if (sucesses.size() > 0)
 				resultsLabel.setText(("\nPage #" + (i + 1) + " " + sucesses.get(i)));
@@ -96,7 +93,6 @@ public class WebCrawler {
 	
 		
 		String results = String.join(", ", spider.sucesses);
-		System.out.println("results ->" + results);
 		resultsLabel.setText(results);
 	}
 
@@ -110,17 +106,14 @@ public class WebCrawler {
 
 	@FXML
 	public void clickedEmail(ActionEvent e) {
-		System.out.println("hi");
 	}
 
 	@FXML
 	public void clickedRemove(ActionEvent e) {
-		System.out.println("hi");
 	}
 
 	@FXML
 	public void clickedIgnore(ActionEvent e) {
-		System.out.println("hi");
 	}
 
 }
