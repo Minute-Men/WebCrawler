@@ -68,8 +68,6 @@ public class WebCrawler {
 	@FXML
 	private Button ignoreButton;
 	@FXML
-	private Button sendButton;
-	@FXML
 	private TextArea keyWordsTextArea;
 	@FXML
 	private TextArea websitesTextArea;
@@ -82,27 +80,21 @@ public class WebCrawler {
 	public void clickedRun(ActionEvent e) {
 
 		WebCrawler spider = new WebCrawler();
-		spider.search("http://www.cnn.com/", "Trump");
+//		spider.search("http://www.cnn.com/", "Trump");
+		spider.search(websitesTextArea.getText(), keyWordsTextArea.getText());
 		for (int i = 0; i < sucesses.size(); i++) {
 			if (sucesses.size() > 0)
-				resultsLabel.setText(("\nPage #" + (i + 1) + " " + sucesses.get(i)));
+				resultsTextArea.setText(("\nPage #" + (i + 1) + " " + sucesses.get(i)));
 
 			else
-				resultsLabel.setText("No Matches Found.");
+				resultsTextArea.setText("No Matches Found.");
 		}
 	
 		
-		String results = String.join(", ", spider.sucesses);
-		resultsLabel.setText(results);
+		String results = String.join("\n ", spider.sucesses);
+		resultsTextArea.setText(results);
 	}
 
-	@FXML
-	public void clickedSend(ActionEvent e) {
-		System.out.println("Hi");
-		String results = String.join(", ", sucesses);
-		System.out.println(results);
-		resultsLabel.setText(results);
-	}
 
 	@FXML
 	public void clickedEmail(ActionEvent e) {
