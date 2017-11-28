@@ -5,10 +5,7 @@
  */
 package application;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -84,14 +81,14 @@ public class WebCrawler {
 		spider.search(websitesTextArea.getText(), keyWordsTextArea.getText());
 		for (int i = 0; i < sucesses.size(); i++) {
 			if (sucesses.size() > 0)
-				resultsTextArea.setText(("\nPage #" + (i + 1) + " " + sucesses.get(i)));
+				resultsTextArea.setText(("\nPage# " + (i + 1) + " " + sucesses.get(i)));
 
 			else
 				resultsTextArea.setText("No Matches Found.");
 		}
 	
 		
-		String results = String.join("\n ", spider.sucesses);
+		String results = String.join("\n", spider.sucesses);
 		resultsTextArea.setText(results);
 	}
 
@@ -108,4 +105,15 @@ public class WebCrawler {
 	public void clickedIgnore(ActionEvent e) {
 	}
 
+
+    public void clickedSort(ActionEvent actionEvent) {
+	    String[] lines = resultsTextArea.getText().split("\n");
+        Arrays.sort(lines);
+        resultsTextArea.clear();
+
+        for(int i = 0; i < lines.length; i++){
+            resultsTextArea.appendText(lines[i]);
+            resultsTextArea.appendText("\n");
+        }
+    }
 }
