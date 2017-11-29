@@ -36,8 +36,8 @@
                   <Button fx:id="ignoreButton" layoutX="271.0" layoutY="326.0" mnemonicParsing="false" onAction="#clickedIgnore" text="Ignore" />
                   <Button fx:id="sortButton" layoutX="92.0" layoutY="326.0" mnemonicParsing="false" onAction="#clickedSort" text="Sort" />
                   <Button layoutX="464.0" layoutY="326.0" mnemonicParsing="false" text="Save" />
-                  <TextArea fx:id="resultsTextArea" layoutX="14.0" layoutY="44.0" prefHeight="269.0" prefWidth="200.0" />
-                  <TextArea layoutX="388.0" layoutY="49.0" prefHeight="269.0" prefWidth="200.0" />
+                  <TextArea fx:id="ignoredTextArea" layoutX="388.0" layoutY="49.0" prefHeight="269.0" prefWidth="200.0" />
+                  <TextArea fx:id="resultsTextArea" layoutX="29.0" layoutY="49.0" prefHeight="266.0" prefWidth="211.0" />
                </children>
             </AnchorPane>
         </content>

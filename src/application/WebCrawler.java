@@ -12,9 +12,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Utilities;
 
 public class WebCrawler {
 	private static final int MAX_PAGES_TO_SEARCH = 50;
+	public TextArea ignoredTextArea;
 	private Set<String> pagesVisited = new HashSet<String>();
 	private List<String> pagesToVisit = new LinkedList<String>();
 	private List<String> sucesses = new LinkedList<String>();
@@ -99,10 +104,14 @@ public class WebCrawler {
 
 	@FXML
 	public void clickedRemove(ActionEvent e) {
+		keyWordsTextArea.setText(keyWordsTextArea.getText().replace(keyWordsTextArea.getSelectedText(),""));
 	}
 
 	@FXML
 	public void clickedIgnore(ActionEvent e) {
+		String link = resultsTextArea.getSelectedText();
+		resultsTextArea.setText(resultsTextArea.getText().replace(resultsTextArea.getSelectedText(),""));
+		ignoredTextArea.appendText(link);
 	}
 
 
@@ -116,4 +125,5 @@ public class WebCrawler {
             resultsTextArea.appendText("\n");
         }
     }
+
 }
