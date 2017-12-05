@@ -75,9 +75,14 @@ public class WebCrawler {
 	private TextArea resultsTextArea;
 	@FXML
 	private Label resultsLabel;
+	@FXML
+	public TextArea ignoredTextArea;
 
 	@FXML
-	public void clickedRun(ActionEvent e) {
+	public void initialize() {
+		keyWordsTextArea.setText("Trump\nHillary\nNorth Korea");
+		websitesTextArea.setText("https://www.cnn.com\nhttps://www.foxnews.com");
+	}
 
 		WebCrawler spider = new WebCrawler();
 //		spider.search("http://www.cnn.com/", "Trump");
@@ -102,10 +107,25 @@ public class WebCrawler {
 
 	@FXML
 	public void clickedRemove(ActionEvent e) {
+		keyWordsTextArea.setText(keyWordsTextArea.getText().replace(keyWordsTextArea.getSelectedText(), ""));
 	}
 
 	@FXML
 	public void clickedIgnore(ActionEvent e) {
+		String link = resultsTextArea.getSelectedText();
+		resultsTextArea.setText(resultsTextArea.getText().replace(link, ""));
+		ignoredTextArea.appendText(link + "\n");
+	}
+
+	public void clickedSort(ActionEvent actionEvent) {
+		String[] lines = resultsTextArea.getText().split("\n");
+		Arrays.sort(lines);
+		resultsTextArea.clear();
+
+		for (int i = 0; i < lines.length; i++) {
+			resultsTextArea.appendText(lines[i]);
+			resultsTextArea.appendText("\n");
+		}
 	}
 
 }

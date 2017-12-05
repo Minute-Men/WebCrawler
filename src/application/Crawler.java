@@ -67,15 +67,15 @@ public class Crawler {
 	 *            - The word or string to look for
 	 * @return whether or not the word was found
 	 */
-	public boolean searchForWord(String searchWord) {
+	public boolean searchForWord(String keyWord) {
 		// Defensive coding. This method should only be used after a successful crawl.
 		if (this.htmlDocument == null) {
 			System.out.println("Try entering a new URL...");
 			return false;
 		}
-		System.out.println("Searching for the word " + searchWord + "...");
+		System.out.println("Searching for the word " + keyWord + "...");
 		String bodyText = this.htmlDocument.body().text();
-		return bodyText.toLowerCase().contains(searchWord.toLowerCase());
+		return bodyText.toLowerCase().contains(keyWord.toLowerCase());
 	}
 
 	public List<String> getLinks() {
