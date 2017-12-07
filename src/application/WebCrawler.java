@@ -5,19 +5,21 @@
  */
 package application;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Utilities;
 
 public class WebCrawler {
 	private static final int MAX_PAGES_TO_SEARCH = 50;
+	public TextArea ignoredTextArea;
 	private Set<String> pagesVisited = new HashSet<String>();
 	private List<String> pagesToVisit = new LinkedList<String>();
 	private List<String> sucesses = new LinkedList<String>();
@@ -89,14 +91,14 @@ public class WebCrawler {
 		spider.search(websitesTextArea.getText(), keyWordsTextArea.getText());
 		for (int i = 0; i < sucesses.size(); i++) {
 			if (sucesses.size() > 0)
-				resultsTextArea.setText(("\nPage #" + (i + 1) + " " + sucesses.get(i)));
+				resultsTextArea.setText(("\nPage# " + (i + 1) + " " + sucesses.get(i)));
 
 			else
 				resultsTextArea.setText("No Matches Found.");
 		}
 	
 		
-		String results = String.join("\n ", spider.sucesses);
+		String results = String.join("\n", spider.sucesses);
 		resultsTextArea.setText(results);
 	}
 
@@ -117,15 +119,15 @@ public class WebCrawler {
 		ignoredTextArea.appendText(link + "\n");
 	}
 
-	public void clickedSort(ActionEvent actionEvent) {
-		String[] lines = resultsTextArea.getText().split("\n");
-		Arrays.sort(lines);
-		resultsTextArea.clear();
+    public void clickedSort(ActionEvent actionEvent) {
+	    String[] lines = resultsTextArea.getText().split("\n");
+        Arrays.sort(lines);
+        resultsTextArea.clear();
 
-		for (int i = 0; i < lines.length; i++) {
-			resultsTextArea.appendText(lines[i]);
-			resultsTextArea.appendText("\n");
-		}
-	}
+        for(int i = 0; i < lines.length; i++){
+            resultsTextArea.appendText(lines[i]);
+            resultsTextArea.appendText("\n");
+        }
+    }
 
 }
