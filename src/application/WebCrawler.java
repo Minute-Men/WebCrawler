@@ -1,63 +1,62 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package application;
 
-import java.util.*;
-
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
 
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Utilities;
+import javafx.scene.control.TextField;
 
 public class WebCrawler {
-	private static final int MAX_PAGES_TO_SEARCH = 50;
-	public TextArea ignoredTextArea;
-	private Set<String> pagesVisited = new HashSet<String>();
-	private List<String> pagesToVisit = new LinkedList<String>();
-	private List<String> sucesses = new LinkedList<String>();
+	private static final int MAX_PAGES_TO_SEARCH = 10;
+	private Set<String> pagesViewed = new HashSet<String>();
+	private List<String> pagesToView = new LinkedList<String>();
+	private List<String> successList = new LinkedList<String>();
 
-	public void search(String url, String searchWord) {
-		while (this.pagesVisited.size() < MAX_PAGES_TO_SEARCH) {
+	public void search(String url, String keyWord) {
+		while (this.pagesViewed.size() < MAX_PAGES_TO_SEARCH) {
 			String currentUrl;
 			Crawler leg = new Crawler();
 			if (this.pagesToVisit.isEmpty()) {
+			if (this.pagesToView.isEmpty()) {
 				currentUrl = url;
-				this.pagesVisited.add(url);
+				this.pagesViewed.add(url);
 			} else {
 				currentUrl = this.nextUrl();
 			}
 			leg.crawl(currentUrl);
-			boolean success = leg.searchForWord(searchWord);
+			boolean success = leg.searchForWord(keyWord);
 			if (success) {
-				this.sucesses.add(currentUrl);
+				this.successList.add(currentUrl);
 			}
 
-			this.pagesToVisit.addAll(leg.getLinks());
+			this.pagesToView.addAll(leg.getLinks());
 		}
-		for (int i = 0; i < sucesses.size(); i++) {
-			if (sucesses.size() > 0)
-				System.out.println("\nPage #" + (i + 1) + " " + sucesses.get(i));
+		for (int i = 0; i < successList.size(); i++) {
+			if (successList.size() > 0)
+				System.out.println("\nPage #" + (i + 1) + " " + successList.get(i));
 			else
 				System.out.println("No Matches Found.");
 		}
-		String results = String.join(", ", sucesses);
-		System.out.println("\nDone Visited " + this.pagesVisited.size() + " web page(s)");
+		// String results = String.join(", ", successList);
+		System.out.println("\nDone Visited " + this.pagesViewed.size() + " web page(s)");
 	}
 
 	private String nextUrl() {
 		String nextUrl;
 		do {
-			nextUrl = this.pagesToVisit.remove(0);
-		} while (this.pagesVisited.contains(nextUrl));
-		this.pagesVisited.add(nextUrl);
+			nextUrl = this.pagesToView.remove(0);
+		} while (this.pagesViewed.contains(nextUrl));
+		this.pagesViewed.add(nextUrl);
 		return nextUrl;
 	}
 
@@ -82,24 +81,49 @@ public class WebCrawler {
 
 	@FXML
 	public void initialize() {
-		keyWordsTextArea.setText("Trump\nHillary\nNorth Korea");
-		websitesTextArea.setText("https://www.cnn.com\nhttps://www.foxnews.com");
+		keyWordsTextArea.setText("Trump\nHillary\nNorth Korea\nsoccer\nGaming");
+		websitesTextArea.setText("https://www.cnn.com\nhttps://www.foxnews.com\nhttp://www.espn.com\nhttps://pcpartpicker.com/");
 	}
 
-		WebCrawler spider = new WebCrawler();
-//		spider.search("http://www.cnn.com/", "Trump");
-		spider.search(websitesTextArea.getText(), keyWordsTextArea.getText());
-		for (int i = 0; i < sucesses.size(); i++) {
-			if (sucesses.size() > 0)
-				resultsTextArea.setText(("\nPage# " + (i + 1) + " " + sucesses.get(i)));
+	@FXML
+	public void clickedRun(ActionEvent e) {
+		resultsTextArea.clear();
+		String[] websiteArray = websitesTextArea.getText().split("\n");
+		String[] keyWordsArray = keyWordsTextArea.getText().split("\n");
 
-			else
-				resultsTextArea.setText("No Matches Found.");
+		for (int i = 0; i < keyWordsArray.length; i++) {
+			for (int j = 0; j < websiteArray.length; j++) {
+				searchCrawler(websiteArray[j], keyWordsArray[i]);
+			}
 		}
 	
 		
 		String results = String.join("\n", spider.sucesses);
 		resultsTextArea.setText(results);
+	}
+
+	private void searchCrawler(String website, String keyWord) {
+		// Starts a thread
+		Thread t1 = new Thread(() -> {
+
+			WebCrawler spider = new WebCrawler();
+			spider.search(website, keyWord);
+
+			// Goes to main thread to set the text
+			Platform.runLater(() -> {
+
+				String results = String.join("\n", spider.successList);
+
+				if (spider.successList.size() == 0) {
+					resultsTextArea.appendText("Did not find " + keyWord + " in \n" + website + "\n\n");
+				} else {
+					resultsTextArea.appendText("Found " + keyWord + " in \n" + results + "\n\n");
+				}
+
+			});
+
+		});
+		t1.start();
 	}
 
 
