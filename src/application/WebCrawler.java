@@ -26,7 +26,6 @@ public class WebCrawler {
 		while (this.pagesViewed.size() < MAX_PAGES_TO_SEARCH) {
 			String currentUrl;
 			Crawler leg = new Crawler();
-			if (this.pagesToVisit.isEmpty()) {
 			if (this.pagesToView.isEmpty()) {
 				currentUrl = url;
 				this.pagesViewed.add(url);
@@ -96,10 +95,6 @@ public class WebCrawler {
 				searchCrawler(websiteArray[j], keyWordsArray[i]);
 			}
 		}
-	
-		
-		String results = String.join("\n", spider.sucesses);
-		resultsTextArea.setText(results);
 	}
 
 	private void searchCrawler(String website, String keyWord) {
