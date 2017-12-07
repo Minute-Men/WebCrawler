@@ -77,6 +77,8 @@ public class WebCrawler {
 	private Label resultsLabel;
 	@FXML
 	public TextArea ignoredTextArea;
+	@FXML
+	public TextField emailtextField;
 
 	@FXML
 	public void initialize() {
@@ -121,9 +123,21 @@ public class WebCrawler {
 		t1.start();
 	}
 
+	public void mail(String whoToMail, String whatToSay) {
+		try {
+			Runtime.getRuntime().exec("php mail.php " + whoToMail + " " + URLEncoder.encode(whatToSay, "UTF-8"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@FXML
 	public void clickedEmail(ActionEvent e) {
+//		mail("dturner36@radford.edu", resultsTextArea.getText());
+//		mail("imacandrew@icloud.com", resultsTextArea.getText());
+//		mail("kjones323@radford.edu", resultsTextArea.getText());
+//		mail("ahumphries3@radford.edu", resultsTextArea.getText());
+//		mail("abecker11@radford.edu", resultsTextArea.getText());
 	}
 
 	@FXML
